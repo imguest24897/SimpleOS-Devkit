@@ -1,0 +1,17 @@
+{
+  "version": 2,
+  "dgSpecHash": "MjYMFIF+C2Y=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\vovanchik\\source\\repos\\SimpleOS-DevKit\\SimpleOS-DevKit\\SimpleOS-DevKit.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\vovanchik\\.nuget\\packages\\cosmos.build\\0.1.0-localbuild20240914011834\\cosmos.build.0.1.0-localbuild20240914011834.nupkg.sha512",
+    "C:\\Users\\vovanchik\\.nuget\\packages\\cosmos.common\\0.1.0-localbuild20240914011845\\cosmos.common.0.1.0-localbuild20240914011845.nupkg.sha512",
+    "C:\\Users\\vovanchik\\.nuget\\packages\\cosmos.core\\0.1.0-localbuild20240914011845\\cosmos.core.0.1.0-localbuild20240914011845.nupkg.sha512",
+    "C:\\Users\\vovanchik\\.nuget\\packages\\cosmos.debug.kernel\\0.1.0-localbuild20240914011845\\cosmos.debug.kernel.0.1.0-localbuild20240914011845.nupkg.sha512",
+    "C:\\Users\\vovanchik\\.nuget\\packages\\cosmos.hal2\\0.1.0-localbuild20240914011845\\cosmos.hal2.0.1.0-localbuild20240914011845.nupkg.sha512",
+    "C:\\Users\\vovanchik\\.nuget\\packages\\cosmos.plugs\\0.1.0-localbuild20240914011845\\cosmos.plugs.0.1.0-localbuild20240914011845.nupkg.sha512",
+    "C:\\Users\\vovanchik\\.nuget\\packages\\cosmos.system2\\0.1.0-localbuild20240914011845\\cosmos.system2.0.1.0-localbuild20240914011845.nupkg.sha512",
+    "C:\\Users\\vovanchik\\.nuget\\packages\\il2cpu.api\\0.1.0-localbuild20240914011845\\il2cpu.api.0.1.0-localbuild20240914011845.nupkg.sha512"
+  ],
+  "logs": []
+}

@@ -1,0 +1,12 @@
+C:\Users\vovanchik\source\repos\SimpleOS-DevKit\SimpleOS-DevKit\bin\Debug\net6.0\SimpleOS-DevKit.deps.json
+C:\Users\vovanchik\source\repos\SimpleOS-DevKit\SimpleOS-DevKit\bin\Debug\net6.0\SimpleOS-DevKit.dll
+C:\Users\vovanchik\source\repos\SimpleOS-DevKit\SimpleOS-DevKit\bin\Debug\net6.0\SimpleOS-DevKit.pdb
+C:\Users\vovanchik\source\repos\SimpleOS-DevKit\SimpleOS-DevKit\obj\Debug\net6.0\SimpleOS-DevKit.csproj.AssemblyReference.cache
+C:\Users\vovanchik\source\repos\SimpleOS-DevKit\SimpleOS-DevKit\obj\Debug\net6.0\SimpleOS-DevKit.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\vovanchik\source\repos\SimpleOS-DevKit\SimpleOS-DevKit\obj\Debug\net6.0\SimpleOS-DevKit.AssemblyInfoInputs.cache
+C:\Users\vovanchik\source\repos\SimpleOS-DevKit\SimpleOS-DevKit\obj\Debug\net6.0\SimpleOS-DevKit.AssemblyInfo.cs
+C:\Users\vovanchik\source\repos\SimpleOS-DevKit\SimpleOS-DevKit\obj\Debug\net6.0\SimpleOS-DevKit.csproj.CoreCompileInputs.cache
+C:\Users\vovanchik\source\repos\SimpleOS-DevKit\SimpleOS-DevKit\obj\Debug\net6.0\SimpleOS-DevKit.dll
+C:\Users\vovanchik\source\repos\SimpleOS-DevKit\SimpleOS-DevKit\obj\Debug\net6.0\refint\SimpleOS-DevKit.dll
+C:\Users\vovanchik\source\repos\SimpleOS-DevKit\SimpleOS-DevKit\obj\Debug\net6.0\SimpleOS-DevKit.pdb
+C:\Users\vovanchik\source\repos\SimpleOS-DevKit\SimpleOS-DevKit\obj\Debug\net6.0\ref\SimpleOS-DevKit.dll

@@ -1,15 +1,9 @@
+using Cosmos.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Sys = Cosmos.System;
 using System.Threading;
-using Cosmos.System.Network;
-using Cosmos.System.Network.IPv4;
-using Cosmos.System.Graphics;
-using Cosmos.System.Graphics.Fonts;
-using System.Drawing;
-using Cosmos.Core;
+using Sys = Cosmos.System;
 
 
 namespace SimpleOS
@@ -21,17 +15,19 @@ namespace SimpleOS
         private string currentDirectory = "/";
         private readonly Dictionary<string, string> files = new Dictionary<string, string>();
         private readonly Dictionary<string, HashSet<string>> directories = new Dictionary<string, HashSet<string>>();
-        string username = "LiveCD";
-        string password = "live";
-        string version = "0.5.2";
-        string osASCIILogo = "  ___ _            _      ___  ___ \r\n / __(_)_ __  _ __| |___ / _ \\/ __|\r\n \\__ \\ | '  \\| '_ \\ / -_) (_) \\__ \\\r\n |___/_|_|_|_| .__/_\\___|\\___/|___/\r\n             |_|                   ";
-        string osName = "SimpleOS";
+        public string username = "LiveCD";
+        public static string currentUser = "LiveCD";
+        public string password = "live";
+        public static string version = "0.6 Slimy";
+        public static string osASCIILogo = "  ___ _            _      ___  ___ \r\n / __(_)_ __  _ __| |___ / _ \\/ __|\r\n \\__ \\ | '  \\| '_ \\ / -_) (_) \\__ \\\r\n |___/_|_|_|_| .__/_\\___|\\___/|___/\r\n             |_|                   ";
+        public static string osName = "SimpleOS";
         string warningASCII = " ___       __   ________  ________  ________   ___  ________   ________     \r\n|\\  \\     |\\  \\|\\   __  \\|\\   __  \\|\\   ___  \\|\\  \\|\\   ___  \\|\\   ____\\    \r\n\\ \\  \\    \\ \\  \\ \\  \\|\\  \\ \\  \\|\\  \\ \\  \\\\ \\  \\ \\  \\ \\  \\\\ \\  \\ \\  \\___|    \r\n \\ \\  \\  __\\ \\  \\ \\   __  \\ \\   _  _\\ \\  \\\\ \\  \\ \\  \\ \\  \\\\ \\  \\ \\  \\  ___  \r\n  \\ \\  \\|\\__\\_\\  \\ \\  \\ \\  \\ \\  \\\\  \\\\ \\  \\\\ \\  \\ \\  \\ \\  \\\\ \\  \\ \\  \\|\\  \\ \r\n   \\ \\____________\\ \\__\\ \\__\\ \\__\\\\ _\\\\ \\__\\\\ \\__\\ \\__\\ \\__\\\\ \\__\\ \\_______\\\r\n    \\|____________|\\|__|\\|__|\\|__|\\|__|\\|__| \\|__|\\|__|\\|__| \\|__|\\|_______|\r\n                                                                            \r\n                                                                            \r\n                                                                            ";
-        string osBuild = "0195";
+        string osBuild = "0272";
         string osNamenoUppercaseLetters = "simpleos";
-        string channel = "stable";
+        string channel = "beta";
         bool guiEnabled = false;
         bool rootAllowed = true;
+        bool ACPIenabled = true;
         string settingsPath = "/sys/config.ini";
         string kernelpanic_dummy = "DUMMY_KERNEL_PANIC";
         string kernelpanic_forcebomb = "FORCE_BOMB_ACTIVATED";
@@ -48,7 +44,10 @@ namespace SimpleOS
             string userInput = Console.ReadLine();
             if (userInput != username)
             {
-                Console.WriteLine("User not found!");
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write("E: ");
+                Console.ForegroundColor = ConsoleColor.Black;
+                Console.Write("User is not found!\n");
                 askUsername();
             }
             else
@@ -57,36 +56,60 @@ namespace SimpleOS
             }
         }
 
+        public void Cosfetch()
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("CosFetch - an open source Neofetch Clone for Cosmos");
+            Console.ForegroundColor = ConsoleColor.Black;
+            Console.WriteLine($"< CPU Model: {CPU.GetCPUBrandString()} >");
+            Console.WriteLine($"< RAM Amount: {GCImplementation.GetAvailableRAM()} >");
+            Console.WriteLine($"< RAM in use: {GCImplementation.GetUsedRAM()} >");
+            Console.WriteLine($"< Current User: LiveCD >");
+            Console.WriteLine($"Sudo Permissions: " + rootAllowed);
+            Console.WriteLine($"< Operating System: " + osName + " >");
+            Console.WriteLine($"< OS Version: " + version + " >");
+        }
+
         private void askPassword()
         {
             Console.WriteLine("Password:");
             string passInput = Console.ReadLine();
             if (passInput != password)
             {
-                Console.WriteLine("Incorrect password!");
-                askPassword();
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write("E: ");
+                Console.ForegroundColor = ConsoleColor.Black;
+                Console.Write("Incorrect password!\n");
+                askUsername();
             }
             else
             {
                 Console.WriteLine("Logging in...");
             }
         }
-
         protected override void BeforeRun()
         {
             Console.WriteLine("Loading module 'RootCheck' (1 / 1)");
             Thread.Sleep(200);
+
             if (rootAllowed == true)
             {
-                Console.BackgroundColor = ConsoleColor.Blue;
+                Console.BackgroundColor = ConsoleColor.Cyan;
                 Console.BackgroundColor = ConsoleColor.White;
                 Console.WriteLine(" Core - Root access");
                 Console.BackgroundColor = ConsoleColor.Black;
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine(warningASCII);
                 Console.ForegroundColor = ConsoleColor.White;
-                Console.WriteLine("This SimpleOS setup has root access. This may can give access to your RAM and CPU, causing CPU to halt, otherwise trigger an exception.\n\nBooting continues after 5 seconds.");
-                Thread.Sleep(5000);
+                Console.Write("This SimpleOS setup has root access. This may can give access to your RAM and CPU, causing CPU to halt, otherwise trigger an exception.\nAttackers can also use root to corrupt your memory and make computer");
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write(" COMPLETELY UNUSABLE");
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.Write(", otherwise - fill the memory fully.\n\n");
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine("Boot process will continue after pressing any key...");
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.ReadKey();
             }
             Console.Write("[Cosmos] Decompressing kernel from SimpleOS.bin.xz...");
             Thread.Sleep(50);
@@ -130,10 +153,13 @@ namespace SimpleOS
             Console.Clear();
             // THE SIMPLEOS ASCII LOGO!!!
             Console.WriteLine(osASCIILogo);
-            if (channel != "stable")
+            if (channel != "stable") // If the OS channel is not stable
             {
                 // Giving warning
-                Console.WriteLine("[" + osName + "-Core] Note that this OS is in " + channel + " testing, so it could be buggy and unstable.\n\n\n");
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.Write(osName + "-Core gives an warning: ");
+                Console.ForegroundColor = ConsoleColor.Black;
+                Console.Write("Note that this OS is in " + channel + " testing, so it \ncould be buggy and unstable.\n\n\n");
             }
         }
 
@@ -143,7 +169,11 @@ namespace SimpleOS
         {
             if (rootAllowed != false)
             {
-                GetPromptROOT();
+                GetPromptROOT(); // not working lol
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write("E: ");
+                Console.ForegroundColor = ConsoleColor.Black;
+                Console.Write("User is not found!");
             }
             else
             {
@@ -169,6 +199,10 @@ namespace SimpleOS
 
                 case "bomb":
                     KernelPanic(kernelpanic_forcebomb);
+                    break;
+
+                case "cosfetch":
+                    Cosfetch();
                     break;
 
                 case "sudo":
@@ -250,7 +284,7 @@ namespace SimpleOS
                     break;
 
                 case "legacypanic":
-                    LegacyKernelPanic();
+                    LegacyKernelPanic("Dummy legacy kernel panic");
                     break;
 
                 case "mgp":
@@ -287,6 +321,12 @@ namespace SimpleOS
             Thread.Sleep(100);
             Sys.Power.Shutdown();
             Console.WriteLine("If your device did not turn off, it means it does not support ACPI.\nPlease, hold the power button until your computer shuts down.");
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("Additionally, we will try sending an ACPI power off signal.\nThis will begin after 3 seconds...");
+            Thread.Sleep(3000);
+            ACPI.Shutdown();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("Seems like we are still unable to shut down your device.\n\nPlease, hold power button.");
         }
 
         private string GetPrompt()
@@ -303,7 +343,7 @@ namespace SimpleOS
         {
             Console.WriteLine("Loading module 'mousedrv'... (1 / 1)");
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.Write("Error: ");
+            Console.Write("E: ");
             Console.ForegroundColor = ConsoleColor.Black;
             Console.Write("The GUI is not loaded yet!\n");
         }
@@ -318,6 +358,7 @@ namespace SimpleOS
             Console.WriteLine(" - wget <url> <filename>: Download a file from the URL and save it (Currently not supported)");
             Console.WriteLine(" - ls: List files in the current directory");
             Console.WriteLine(" - dir: Equivalent to 'ls'");
+            Console.WriteLine(" - cosfetch: Fetch the system and computer information");
             Console.WriteLine(" - cat <filename>: Show the content of the specified file");
             Console.WriteLine(" - reboot: Restart the operating system");
             Console.WriteLine(" - sudo: Execute a command with 'root' privileges");
@@ -383,14 +424,26 @@ namespace SimpleOS
         {
             Console.Clear();
             Console.BackgroundColor = ConsoleColor.Black;
+            Console.Clear();
             Console.Beep(100, 100);
             Console.Beep(500, 100);
             Console.Beep(700, 100);
+            Console.Clear();
             Console.ForegroundColor = ConsoleColor.White;
             Console.CursorVisible = false;
-            Console.WindowHeight = 600;
-            Console.WindowWidth = 800;
-
+            while (true)
+            {
+                Console.BackgroundColor = ConsoleColor.Red;
+                Console.Clear();
+                Console.BackgroundColor = ConsoleColor.Green;
+                Console.Clear();
+                Console.BackgroundColor = ConsoleColor.Blue;
+                Console.Clear();
+                Console.BackgroundColor = ConsoleColor.White;
+                Console.Clear();
+                Console.BackgroundColor = ConsoleColor.Cyan;
+                Console.Clear();
+            }
         }
 
         private void ListFiles()
@@ -480,28 +533,7 @@ namespace SimpleOS
 
         private static void StartScreensaver()
         {
-            Console.Clear();
-            Console.CursorVisible = false;
-            Random random = new Random();
-            int screenWidth = Console.WindowWidth;
-            int screenHeight = Console.WindowHeight;
-
-            while (!Console.KeyAvailable)
-            {
-                int starX = random.Next(0, screenWidth);
-                int starY = random.Next(0, screenHeight);
-
-                Console.SetCursorPosition(starX, starY);
-                Console.Write("*");
-
-                Thread.Sleep(random.Next(100, 500));  // Random blink speed
-
-                Console.SetCursorPosition(starX, starY);
-                Console.Write(" ");  // Clear the star (blink effect)
-            }
-
-            Console.ReadKey(); // Wait for key press to exit
-            Console.Clear();
+            Console.WriteLine("Screensaver was removed in this build due to bugs.\nThe command will be removed in future.");
         }
 
         private void logoff()
@@ -511,13 +543,45 @@ namespace SimpleOS
 
         private void InitializeFileSystem()
         {
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("Beginning file system copying...");
+            Console.ForegroundColor = ConsoleColor.Black;
+            Thread.Sleep(1000);
             directories.Add("/", new HashSet<string> { "sys", "home", "bin", "usr" });
+            Console.WriteLine("Copying /sys");
+            Console.WriteLine("Copying /sys/version.txt");
+            Thread.Sleep(300);
+            Console.WriteLine("Copying /sys/config");
+            Thread.Sleep(300);
+            Console.WriteLine("Copying /sys/config/users.xml");
+            Thread.Sleep(300);
+            Console.WriteLine("Copying /sys/config/access.xml");
+            Thread.Sleep(300);
             directories.Add("/sys", new HashSet<string>());
             directories.Add("/home", new HashSet<string>());
+            Thread.Sleep(300);
+            Console.WriteLine("Copying /home");
+            Thread.Sleep(300);
+            Console.WriteLine("Copying /home/LiveCD");
+            Thread.Sleep(300);
+            Console.WriteLine("Copying /home/LiveCD/.userdata");
             directories.Add("/bin", new HashSet<string>());
+            Thread.Sleep(300);
+            Console.WriteLine("Copying /bin");
+            Thread.Sleep(300);
+            Console.WriteLine("Copying /bin/shell");
+            Thread.Sleep(500);
+            Console.WriteLine("Copying /bin/shellcmds");
+            Thread.Sleep(1000);
             directories.Add("/usr", new HashSet<string>());
+            Thread.Sleep(100);
+            Console.WriteLine("Copying /usr");
 
             files.Add("/sys/version.txt", osName + " v" + version + channel);
+            Thread.Sleep(300);
+            Console.WriteLine("Copying /mousedrv.mod");
+            Thread.Sleep(10);
+            files.Add("/mousedrv.mod", "File content was hidden to reduce lags.");
         }
 
         private void KernelPanic(string errorMessage)
@@ -579,13 +643,13 @@ namespace SimpleOS
                 Console.Beep();
             }
         }
-        private void LegacyKernelPanic()
+        private void LegacyKernelPanic(string errormsgLegacy)
         {
             Console.Clear();
 
             while (true)
             {
-                Console.Write("KERNEL PANIC!! ");
+                Console.Write("KERNEL PANIC!! " + errormsgLegacy + " \n");
             }
         }
     }
